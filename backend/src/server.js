@@ -15,9 +15,27 @@ connectDB();
 
 const app = express();
 
+// Allow both local and deployed frontend
+const allowedOrigins = [
+  'http://localhost:5173', // local Vite frontend
+  'https://xeno-crm-platform-lilac.vercel.app' // deployed frontend
+];
+
+app.use(cors({
+  origin: function(origin, callback){
+    // Allow requests with no origin (like Postman)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = `CORS policy does not allow access from ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 
 // Initialize passport
 app.use(passport.initialize());
