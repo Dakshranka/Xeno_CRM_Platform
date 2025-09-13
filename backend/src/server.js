@@ -18,7 +18,8 @@ const app = express();
 // Allow both local and deployed frontend
 const allowedOrigins = [
   'http://localhost:5173', // local Vite frontend
-  'https://xeno-crm-platform-lilac.vercel.app' // deployed frontend
+  'https://xeno-crm-platform-lilac.vercel.app',
+  'https://xeno-crm-platform.onrender.com'
 ];
 
 app.use(cors({
